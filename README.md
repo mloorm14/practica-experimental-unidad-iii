@@ -12,10 +12,13 @@ Proyecto de Fin de Curso (PFC) grupal desarrollado como parte de la Unidad III d
 
 ## Integrantes del equipo
 
-- [Nombre 1] - [Rol]
-- [Nombre 2] - [Rol]
-- [Nombre 3] - [Rol]
-- [Nombre 4] - [Rol]
+- Marlon Loor - Backend base, arquitectura, autenticación, cache
+- [Nombre compañero 1] - CRUD de entidades adicionales y datos semilla
+- [Nombre compañero 2] - Frontend Angular y testing
+
+## Estado del proyecto
+
+Para el estado actual del proyecto (qué está hecho, qué falta y quién lo haría, cómo levantar el entorno, y puntos de atención técnica), ver la guía de continuidad del equipo: [docs/handoff/GUIA-EQUIPO.md](docs/handoff/GUIA-EQUIPO.md).
 
 ## Estructura del proyecto
 
