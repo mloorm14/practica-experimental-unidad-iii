@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,35 +16,47 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "libros")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Producto {
+public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 150)
-    private String nombre;
+    private String titulo;
 
     @Column(length = 500)
     private String descripcion;
 
     @Column(nullable = false, length = 50, unique = true)
-    private String sku;
+    private String isbn;
 
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal precio;
+    @Column(length = 100)
+    private String genero;
+
+    @Column(length = 150)
+    private String autor;
+
+    @Column(name = "anio_publicacion")
+    private Integer anioPublicacion;
+
+    @Column(length = 150)
+    private String editorial;
+
+    @Column(length = 50)
+    private String idioma;
+
+    @Column(length = 30)
+    private String estado;
 
     @Column(nullable = false)
     private Integer stock;
-
-    @Column(length = 100)
-    private String categoria;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
