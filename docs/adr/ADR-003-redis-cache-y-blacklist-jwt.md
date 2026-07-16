@@ -8,7 +8,7 @@ Aceptado
 
 El backend tiene dos necesidades de estado rápido y volátil que no son responsabilidad natural de PostgreSQL:
 
-1. **Cache de lectura**: el listado paginado de productos (`GET /api/productos`) es la consulta principal del PFC y, como todo catálogo, tiene una proporción de lecturas mucho mayor que de escrituras (crear/actualizar/eliminar un producto es comparativamente infrecuente frente a listarlos). Eso hace del **cache-aside** el patrón correcto frente a read-through/write-through/write-behind: la aplicación controla explícitamente cuándo lee del cache y cuándo lo invalida (`@Cacheable`/`@CacheEvict` con `allEntries=true` en `crear`/`actualizar`/`eliminar`), sin necesitar que cada escritura pase obligatoriamente por el cache (write-through) ni asumir el riesgo de pérdida de datos de un buffer asíncrono (write-behind), que no se justifica para este volumen de escritura.
+1. **Cache de lectura**: el listado paginado de libros (`GET /api/libros`) es la consulta principal del PFC y, como todo catálogo, tiene una proporción de lecturas mucho mayor que de escrituras (crear/actualizar/eliminar un libro es comparativamente infrecuente frente a listarlos). Eso hace del **cache-aside** el patrón correcto frente a read-through/write-through/write-behind: la aplicación controla explícitamente cuándo lee del cache y cuándo lo invalida (`@Cacheable`/`@CacheEvict` con `allEntries=true` en `crear`/`actualizar`/`eliminar`), sin necesitar que cada escritura pase obligatoriamente por el cache (write-through) ni asumir el riesgo de pérdida de datos de un buffer asíncrono (write-behind), que no se justifica para este volumen de escritura.
 
 2. **Invalidación de JWT en logout**: con autenticación stateless, un JWT firmado no se puede revocar por diseño. Implementamos una blacklist de `jti` (verificado con evidencia real: login emite cookie con JWT, logout agrega el `jti` a Redis con TTL igual al tiempo restante del token, y la reutilización de la cookie post-logout efectivamente devuelve 401).
 
@@ -18,7 +18,7 @@ El backend tiene dos necesidades de estado rápido y volátil que no son respons
 
 ## Decisión
 
-Redis 7 cumple ambas funciones dentro del mismo backend: cache-aside (`RedisCacheManager`, TTL 5 min) y blacklist de `jti` (`StringRedisTemplate`, TTL = tiempo restante del token), como namespaces de key distintos (`productos_listado::*` vs `jwt_blacklist:*`) sobre la misma instancia.
+Redis 7 cumple ambas funciones dentro del mismo backend: cache-aside (`RedisCacheManager`, TTL 5 min) y blacklist de `jti` (`StringRedisTemplate`, TTL = tiempo restante del token), como namespaces de key distintos (`libros_listado::*` vs `jwt_blacklist:*`) sobre la misma instancia.
 
 ## Consecuencias
 
@@ -34,3 +34,7 @@ Existe riesgo real de stampede en dos escenarios, ninguno mitigado hoy: (1) expi
 
 - **Memcached**: descartado por carecer de estructuras de datos ricas y de persistencia opcional; hubiera cubierto el cache-aside pero no aportaba nada adicional frente a Redis para justificar tener dos motores o renunciar a la flexibilidad futura.
 - **Tabla de tokens revocados en PostgreSQL con limpieza por cron**: descartada porque exige infraestructura de limpieza (job programado) que Redis resuelve de forma nativa con TTL por key, sin código ni proceso adicional.
+
+## Nota de contexto
+
+Este ejercicio usa el dominio de gestión bibliotecaria como caso de práctica de la Unidad III de Aplicaciones Web, independiente del repositorio del Proyecto Fin de Curso real del autor.
