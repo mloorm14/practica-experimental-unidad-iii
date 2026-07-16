@@ -12,9 +12,11 @@ Proyecto de Fin de Curso (PFC) grupal desarrollado como parte de la Unidad III d
 
 ## Integrantes del equipo
 
-- Marlon Loor - Backend base, arquitectura, autenticación, cache
-- [Nombre compañero 1] - CRUD de entidades adicionales y datos semilla
-- [Nombre compañero 2] - Frontend Angular y testing
+Equipo D
+
+- Castro Espinoza Kevin Moisés - [Rol pendiente de asignar]
+- Escudero Plaza María del Rosario - [Rol pendiente de asignar]
+- Loor Medranda Marlon Taylor - Backend base, arquitectura, autenticación, cache
 
 ## Estado del proyecto
 
