@@ -1,0 +1,72 @@
+workspace "PFC - Gestion de Inventario" "Documentacion de arquitectura C4 (Nivel 1 y 2) del sistema de gestion de inventario." {
+
+    model {
+        usuarioFinal = person "Usuario Final" "Consulta el catalogo de productos disponibles."
+        administrador = person "Administrador" "Gestiona el catalogo de productos (crear, actualizar, eliminar). Requiere autenticacion."
+
+        sistemaPfc = softwareSystem "Sistema PFC - Gestion de Inventario" "Permite consultar y administrar el catalogo de productos de la organizacion." {
+
+            frontend = container "Frontend Angular" "Interfaz web (SPA) que permite consultar el catalogo y, si el usuario esta autenticado como administrador, gestionar productos." "Angular 17+" "Frontend"
+
+            backend = container "Backend Spring Boot" "Expone la API REST del catalogo de productos y la autenticacion, aplicando las reglas de negocio (capas Controller-Service-Repository-Entity)." "Java 21 / Spring Boot 3.5.x" "Backend"
+
+            baseDatos = container "Base de datos PostgreSQL" "Almacena de forma persistente el catalogo de productos y los usuarios del sistema." "PostgreSQL 16" "Database"
+
+            redis = container "Redis" "Cumple doble funcion: (1) cache-aside de las consultas de listado de productos para reducir la carga sobre PostgreSQL, y (2) blacklist de JTI de tokens JWT para permitir logout efectivo en un esquema de autenticacion stateless." "Redis 7" "Cache"
+        }
+
+        usuarioFinal -> frontend "Consulta el catalogo de productos usando" "HTTPS"
+        administrador -> frontend "Administra el catalogo de productos usando" "HTTPS"
+
+        frontend -> backend "Realiza llamadas a la API REST (incluye login/logout)" "HTTPS/REST (JSON)"
+        backend -> baseDatos "Lee y escribe productos y usuarios" "JDBC"
+        backend -> redis "Lee y escribe entradas de cache y blacklist de JTI" "RESP (Redis protocol)"
+    }
+
+    views {
+        systemContext sistemaPfc "Nivel1-Contexto" {
+            include *
+            autoLayout
+            title "Nivel 1 - Contexto del Sistema PFC"
+            description "Actores Usuario Final y Administrador interactuando con el Sistema PFC de Gestion de Inventario."
+        }
+
+        container sistemaPfc "Nivel2-Contenedores" {
+            include *
+            autoLayout
+            title "Nivel 2 - Contenedores del Sistema PFC"
+            description "Descomposicion del Sistema PFC en sus contenedores: Frontend Angular, Backend Spring Boot, PostgreSQL y Redis."
+        }
+
+        styles {
+            element "Person" {
+                shape person
+                background #08427b
+                color #ffffff
+            }
+            element "Software System" {
+                background #1168bd
+                color #ffffff
+            }
+            element "Frontend" {
+                background #85bbf0
+                color #000000
+            }
+            element "Backend" {
+                background #438dd5
+                color #ffffff
+            }
+            element "Database" {
+                shape cylinder
+                background #438dd5
+                color #ffffff
+            }
+            element "Cache" {
+                shape cylinder
+                background #f5a623
+                color #000000
+            }
+        }
+    }
+
+}
