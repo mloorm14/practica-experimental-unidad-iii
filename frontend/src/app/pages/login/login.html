@@ -9,9 +9,6 @@
       Contraseña
       <input type="password" name="password" [(ngModel)]="password" required />
     </label>
-    @if (error()) {
-    <p class="error">{{ error() }}</p>
-    }
     <button type="submit" [disabled]="cargando()">
       {{ cargando() ? 'Ingresando...' : 'Ingresar' }}
     </button>

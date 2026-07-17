@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { LibroService } from '../../core/services/libro.service';
+import { NotificationService } from '../../core/services/notification.service';
 import { Libro } from '../../core/models/libro.model';
 
 @Component({
@@ -17,7 +18,10 @@ export class Libros implements OnInit {
   paginaActual = signal(0);
   totalPaginas = signal(0);
 
-  constructor(private libroService: LibroService) {}
+  constructor(
+    private libroService: LibroService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.cargarLibros();
@@ -33,6 +37,7 @@ export class Libros implements OnInit {
       },
       error: () => {
         this.cargando.set(false);
+        this.notificationService.mostrarError('No se pudieron cargar los libros.');
       }
     });
   }
@@ -43,8 +48,11 @@ export class Libros implements OnInit {
     }
 
     this.libroService.eliminar(id).subscribe({
-      next: () => this.cargarLibros(),
-      error: () => alert('No se pudo eliminar el libro.')
+      next: () => {
+        this.notificationService.mostrarExito('Libro eliminado correctamente.');
+        this.cargarLibros();
+      },
+      error: () => this.notificationService.mostrarError('No se pudo eliminar el libro.')
     });
   }
 

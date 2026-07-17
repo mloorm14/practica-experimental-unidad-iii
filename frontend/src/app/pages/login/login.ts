@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { AuthService } from '../../core/services/auth.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +16,14 @@ export class Login {
   username = '';
   password = '';
   cargando = signal(false);
-  error = signal<string | null>(null);
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private router: Router
+  ) {}
 
   onSubmit(): void {
-    this.error.set(null);
     this.cargando.set(true);
 
     this.authService.login({ username: this.username, password: this.password }).subscribe({
@@ -30,7 +33,7 @@ export class Login {
       },
       error: () => {
         this.cargando.set(false);
-        this.error.set('Usuario o contraseña incorrectos');
+        this.notificationService.mostrarError('Usuario o contraseña incorrectos.');
       }
     });
   }

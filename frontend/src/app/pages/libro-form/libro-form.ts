@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { LibroService, LibroRequest } from '../../core/services/libro.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-libro-form',
@@ -14,7 +15,6 @@ import { LibroService, LibroRequest } from '../../core/services/libro.service';
 export class LibroForm implements OnInit {
   esEdicion = signal(false);
   guardando = signal(false);
-  error = signal<string | null>(null);
   private libroId: number | null = null;
 
   form: LibroRequest = {
@@ -32,6 +32,7 @@ export class LibroForm implements OnInit {
 
   constructor(
     private libroService: LibroService,
+    private notificationService: NotificationService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -51,7 +52,6 @@ export class LibroForm implements OnInit {
   }
 
   onSubmit(): void {
-    this.error.set(null);
     this.guardando.set(true);
 
     const peticion = this.esEdicion()
@@ -61,11 +61,12 @@ export class LibroForm implements OnInit {
     peticion.subscribe({
       next: () => {
         this.guardando.set(false);
+        this.notificationService.mostrarExito('Libro guardado correctamente.');
         this.router.navigate(['/libros']);
       },
       error: () => {
         this.guardando.set(false);
-        this.error.set('No se pudo guardar el libro. Verifica los datos.');
+        this.notificationService.mostrarError('No se pudo guardar el libro. Verifica los datos.');
       }
     });
   }

@@ -43,10 +43,6 @@
       <textarea name="descripcion" [(ngModel)]="form.descripcion"></textarea>
     </label>
 
-    @if (error()) {
-    <p class="error">{{ error() }}</p>
-    }
-
     <button type="submit" [disabled]="guardando()">
       {{ guardando() ? 'Guardando...' : 'Guardar' }}
     </button>
