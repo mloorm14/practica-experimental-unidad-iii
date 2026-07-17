@@ -2,9 +2,12 @@ package ec.edu.uteq.pfcbackend.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -46,14 +49,17 @@ public class Libro {
     @Column(name = "anio_publicacion")
     private Integer anioPublicacion;
 
-    @Column(length = 150)
-    private String editorial;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "editorial_id", nullable = false)
+    private Editorial editorial;
 
-    @Column(length = 50)
-    private String idioma;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idioma_id", nullable = false)
+    private Idioma idioma;
 
-    @Column(length = 30)
-    private String estado;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "estado_id", nullable = false)
+    private EstadoLibro estado;
 
     @Column(nullable = false)
     private Integer stock;

@@ -31,14 +31,14 @@ public record LibroRequest(
         @Max(value = 2100, message = "El anio de publicacion no es valido")
         Integer anioPublicacion,
 
-        @Size(max = 150, message = "La editorial no puede superar los 150 caracteres")
-        String editorial,
+        @NotNull(message = "El id de la editorial es obligatorio")
+        Long editorialId,
 
-        @Size(max = 50, message = "El idioma no puede superar los 50 caracteres")
-        String idioma,
+        @NotNull(message = "El id del idioma es obligatorio")
+        Long idiomaId,
 
-        @Size(max = 30, message = "El estado no puede superar los 30 caracteres")
-        String estado,
+        @NotNull(message = "El id del estado es obligatorio")
+        Long estadoId,
 
         @NotNull(message = "El stock es obligatorio")
         @Min(value = 0, message = "El stock no puede ser negativo")
