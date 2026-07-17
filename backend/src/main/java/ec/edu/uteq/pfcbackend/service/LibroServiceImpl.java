@@ -3,9 +3,15 @@ package ec.edu.uteq.pfcbackend.service;
 import ec.edu.uteq.pfcbackend.config.CacheablePage;
 import ec.edu.uteq.pfcbackend.dto.LibroRequest;
 import ec.edu.uteq.pfcbackend.dto.LibroResponse;
+import ec.edu.uteq.pfcbackend.entity.Editorial;
+import ec.edu.uteq.pfcbackend.entity.EstadoLibro;
+import ec.edu.uteq.pfcbackend.entity.Idioma;
 import ec.edu.uteq.pfcbackend.entity.Libro;
 import ec.edu.uteq.pfcbackend.exception.BusinessException;
 import ec.edu.uteq.pfcbackend.exception.ResourceNotFoundException;
+import ec.edu.uteq.pfcbackend.repository.EditorialRepository;
+import ec.edu.uteq.pfcbackend.repository.EstadoLibroRepository;
+import ec.edu.uteq.pfcbackend.repository.IdiomaRepository;
 import ec.edu.uteq.pfcbackend.repository.LibroRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,6 +29,9 @@ public class LibroServiceImpl implements LibroService {
     private static final String CACHE_LISTADO = "libros_listado";
 
     private final LibroRepository libroRepository;
+    private final EditorialRepository editorialRepository;
+    private final IdiomaRepository idiomaRepository;
+    private final EstadoLibroRepository estadoLibroRepository;
 
     @Override
     @Cacheable(value = CACHE_LISTADO, key = "#pageable.pageNumber + '-' + #pageable.pageSize + '-' + #pageable.sort.toString()")
@@ -49,6 +58,13 @@ public class LibroServiceImpl implements LibroService {
             throw new BusinessException("Ya existe un libro con el ISBN: " + request.isbn());
         });
 
+        Editorial editorial = editorialRepository.findById(request.editorialId())
+                .orElseThrow(() -> new ResourceNotFoundException("Editorial no encontrada con id: " + request.editorialId()));
+        Idioma idioma = idiomaRepository.findById(request.idiomaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Idioma no encontrado con id: " + request.idiomaId()));
+        EstadoLibro estado = estadoLibroRepository.findById(request.estadoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Estado no encontrado con id: " + request.estadoId()));
+
         Libro libro = Libro.builder()
                 .titulo(request.titulo())
                 .descripcion(request.descripcion())
@@ -56,9 +72,9 @@ public class LibroServiceImpl implements LibroService {
                 .genero(request.genero())
                 .autor(request.autor())
                 .anioPublicacion(request.anioPublicacion())
-                .editorial(request.editorial())
-                .idioma(request.idioma())
-                .estado(request.estado())
+                .editorial(editorial)
+                .idioma(idioma)
+                .estado(estado)
                 .stock(request.stock())
                 .build();
 
@@ -77,15 +93,22 @@ public class LibroServiceImpl implements LibroService {
                     throw new BusinessException("Ya existe un libro con el ISBN: " + request.isbn());
                 });
 
+        Editorial editorial = editorialRepository.findById(request.editorialId())
+                .orElseThrow(() -> new ResourceNotFoundException("Editorial no encontrada con id: " + request.editorialId()));
+        Idioma idioma = idiomaRepository.findById(request.idiomaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Idioma no encontrado con id: " + request.idiomaId()));
+        EstadoLibro estado = estadoLibroRepository.findById(request.estadoId())
+                .orElseThrow(() -> new ResourceNotFoundException("Estado no encontrado con id: " + request.estadoId()));
+
         libro.setTitulo(request.titulo());
         libro.setDescripcion(request.descripcion());
         libro.setIsbn(request.isbn());
         libro.setGenero(request.genero());
         libro.setAutor(request.autor());
         libro.setAnioPublicacion(request.anioPublicacion());
-        libro.setEditorial(request.editorial());
-        libro.setIdioma(request.idioma());
-        libro.setEstado(request.estado());
+        libro.setEditorial(editorial);
+        libro.setIdioma(idioma);
+        libro.setEstado(estado);
         libro.setStock(request.stock());
 
         return aResponse(libroRepository.save(libro));
@@ -113,9 +136,12 @@ public class LibroServiceImpl implements LibroService {
                 libro.getGenero(),
                 libro.getAutor(),
                 libro.getAnioPublicacion(),
-                libro.getEditorial(),
-                libro.getIdioma(),
-                libro.getEstado(),
+                libro.getEditorial().getId(),
+                libro.getEditorial().getNombre(),
+                libro.getIdioma().getId(),
+                libro.getIdioma().getNombre(),
+                libro.getEstado().getId(),
+                libro.getEstado().getNombre(),
                 libro.getStock(),
                 libro.getCreatedAt(),
                 libro.getUpdatedAt()
