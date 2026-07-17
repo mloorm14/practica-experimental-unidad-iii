@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Libro, PageResponse } from '../models/libro.model';
 
+export type LibroRequest = Omit<Libro, 'id' | 'createdAt' | 'updatedAt'>;
+
 @Injectable({ providedIn: 'root' })
 export class LibroService {
   constructor(private http: HttpClient) {}
@@ -15,5 +17,17 @@ export class LibroService {
       .set('size', tamanio);
 
     return this.http.get<PageResponse<Libro>>(`${environment.apiUrl}/libros`, { params });
+  }
+
+  obtenerPorId(id: number): Observable<Libro> {
+    return this.http.get<Libro>(`${environment.apiUrl}/libros/${id}`);
+  }
+
+  crear(libro: LibroRequest): Observable<Libro> {
+    return this.http.post<Libro>(`${environment.apiUrl}/libros`, libro);
+  }
+
+  actualizar(id: number, libro: LibroRequest): Observable<Libro> {
+    return this.http.put<Libro>(`${environment.apiUrl}/libros/${id}`, libro);
   }
 }
