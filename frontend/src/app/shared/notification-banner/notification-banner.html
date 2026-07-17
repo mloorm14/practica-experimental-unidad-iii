@@ -1,0 +1,5 @@
+@if (notificationService.notificacion(); as noti) {
+<div class="banner" [class.error]="noti.tipo === 'error'" [class.exito]="noti.tipo === 'exito'">
+  {{ noti.mensaje }}
+</div>
+}
