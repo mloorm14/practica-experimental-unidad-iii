@@ -15,9 +15,6 @@ Proyecto de Fin de Curso (PFC) grupal desarrollado como parte de la Unidad III d
 Equipo D
 
 - Castro Espinoza Kevin Moisés - Frontend Angular, tests JUnit, benchmark de cache
-- Escudero Plaza María del Rosario - [Rol pendiente de asignar]
-- Loor Medranda Marlon Taylor - Backend base, arquitectura, autenticación, cache
-- Castro Espinoza Kevin Moisés - [Rol pendiente de asignar]
 - Escudero Plaza María del Rosario - Backend: entidades maestras, migraciones Flyway, relaciones ORM y datos semilla.
 - Loor Medranda Marlon Taylor - Backend base, arquitectura, autenticación, cache.
 
