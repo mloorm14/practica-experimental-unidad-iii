@@ -1,0 +1,16 @@
+<div class="login-container">
+  <h1>Iniciar sesión</h1>
+  <form (ngSubmit)="onSubmit()">
+    <label>
+      Usuario
+      <input type="text" name="username" [(ngModel)]="username" required />
+    </label>
+    <label>
+      Contraseña
+      <input type="password" name="password" [(ngModel)]="password" required />
+    </label>
+    <button type="submit" [disabled]="cargando()">
+      {{ cargando() ? 'Ingresando...' : 'Ingresar' }}
+    </button>
+  </form>
+</div>

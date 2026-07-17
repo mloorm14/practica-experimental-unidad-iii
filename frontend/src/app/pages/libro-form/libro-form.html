@@ -1,0 +1,50 @@
+<div class="form-container">
+  <h1>{{ esEdicion() ? 'Editar libro' : 'Nuevo libro' }}</h1>
+
+  <form (ngSubmit)="onSubmit()">
+    <label>
+      Título
+      <input type="text" name="titulo" [(ngModel)]="form.titulo" required />
+    </label>
+    <label>
+      Autor
+      <input type="text" name="autor" [(ngModel)]="form.autor" required />
+    </label>
+    <label>
+      ISBN
+      <input type="text" name="isbn" [(ngModel)]="form.isbn" required />
+    </label>
+    <label>
+      Año de publicación
+      <input type="number" name="anioPublicacion" [(ngModel)]="form.anioPublicacion" required />
+    </label>
+    <label>
+      Stock
+      <input type="number" name="stock" [(ngModel)]="form.stock" required />
+    </label>
+    <label>
+      Género
+      <input type="text" name="genero" [(ngModel)]="form.genero" />
+    </label>
+    <label>
+      Editorial
+      <input type="text" name="editorial" [(ngModel)]="form.editorial" />
+    </label>
+    <label>
+      Idioma
+      <input type="text" name="idioma" [(ngModel)]="form.idioma" />
+    </label>
+    <label>
+      Estado
+      <input type="text" name="estado" [(ngModel)]="form.estado" />
+    </label>
+    <label>
+      Descripción
+      <textarea name="descripcion" [(ngModel)]="form.descripcion"></textarea>
+    </label>
+
+    <button type="submit" [disabled]="guardando()">
+      {{ guardando() ? 'Guardando...' : 'Guardar' }}
+    </button>
+  </form>
+</div>
