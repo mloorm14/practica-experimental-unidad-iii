@@ -1,5 +1,8 @@
 <div class="libros-container">
-  <h1>Libros</h1>
+  <div class="header">
+    <h1>Libros</h1>
+    <a routerLink="/libros/nuevo">Nuevo libro</a>
+  </div>
 
   @if (cargando()) {
   <p>Cargando...</p>
@@ -12,6 +15,7 @@
       <th>ISBN</th>
       <th>Año</th>
       <th>Stock</th>
+      <th>Acciones</th>
     </tr>
     </thead>
     <tbody>
@@ -22,6 +26,10 @@
       <td>{{ libro.isbn }}</td>
       <td>{{ libro.anioPublicacion }}</td>
       <td>{{ libro.stock }}</td>
+      <td>
+        <a [routerLink]="['/libros', libro.id, 'editar']">Editar</a>
+        <button (click)="eliminar(libro.id)">Eliminar</button>
+      </td>
     </tr>
     }
     </tbody>

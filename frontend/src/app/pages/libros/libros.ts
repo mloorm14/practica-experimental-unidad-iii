@@ -1,4 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 import { LibroService } from '../../core/services/libro.service';
 import { Libro } from '../../core/models/libro.model';
@@ -6,7 +7,7 @@ import { Libro } from '../../core/models/libro.model';
 @Component({
   selector: 'app-libros',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './libros.html',
   styleUrl: './libros.scss'
 })
@@ -33,6 +34,17 @@ export class Libros implements OnInit {
       error: () => {
         this.cargando.set(false);
       }
+    });
+  }
+
+  eliminar(id: number): void {
+    if (!confirm('¿Seguro que deseas eliminar este libro?')) {
+      return;
+    }
+
+    this.libroService.eliminar(id).subscribe({
+      next: () => this.cargarLibros(),
+      error: () => alert('No se pudo eliminar el libro.')
     });
   }
 

@@ -30,4 +30,7 @@ export class LibroService {
   actualizar(id: number, libro: LibroRequest): Observable<Libro> {
     return this.http.put<Libro>(`${environment.apiUrl}/libros/${id}`, libro);
   }
+  eliminar(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/libros/${id}`);
+  }
 }
