@@ -1,8 +1,8 @@
 package ec.edu.uteq.pfcbackend.controller;
 
-import ec.edu.uteq.pfcbackend.dto.ProductoRequest;
-import ec.edu.uteq.pfcbackend.dto.ProductoResponse;
-import ec.edu.uteq.pfcbackend.service.ProductoService;
+import ec.edu.uteq.pfcbackend.dto.LibroRequest;
+import ec.edu.uteq.pfcbackend.dto.LibroResponse;
+import ec.edu.uteq.pfcbackend.service.LibroService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,36 +20,36 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/productos")
+@RequestMapping("/api/libros")
 @RequiredArgsConstructor
-public class ProductoController {
+public class LibroController {
 
-    private final ProductoService productoService;
+    private final LibroService libroService;
 
     @GetMapping
-    public Page<ProductoResponse> listar(Pageable pageable) {
-        return productoService.listar(pageable);
+    public Page<LibroResponse> listar(Pageable pageable) {
+        return libroService.listar(pageable);
     }
 
     @GetMapping("/{id}")
-    public ProductoResponse obtenerPorId(@PathVariable Long id) {
-        return productoService.obtenerPorId(id);
+    public LibroResponse obtenerPorId(@PathVariable Long id) {
+        return libroService.obtenerPorId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductoResponse crear(@Valid @RequestBody ProductoRequest request) {
-        return productoService.crear(request);
+    public LibroResponse crear(@Valid @RequestBody LibroRequest request) {
+        return libroService.crear(request);
     }
 
     @PutMapping("/{id}")
-    public ProductoResponse actualizar(@PathVariable Long id, @Valid @RequestBody ProductoRequest request) {
-        return productoService.actualizar(id, request);
+    public LibroResponse actualizar(@PathVariable Long id, @Valid @RequestBody LibroRequest request) {
+        return libroService.actualizar(id, request);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        productoService.eliminar(id);
+        libroService.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 }

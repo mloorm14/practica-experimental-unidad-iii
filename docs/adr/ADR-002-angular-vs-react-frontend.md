@@ -23,9 +23,13 @@ Usamos Angular 17+ para el frontend, consumiendo la API REST del backend (incluy
 
 **Positivas:** estructura de proyecto uniforme desde el `angular.json`/CLI, menos decisiones de "qué librería usar para X" que resolver como equipo, TypeScript reforzado end-to-end (backend en Java tipado, frontend en TS tipado), curva de aprendizaje guiada por la documentación oficial de Angular.
 
-**Negativas:** mayor verbosidad inicial que React para componentes simples; RxJS (usado internamente por `HttpClient` y el router) tiene su propia curva de aprendizaje que el equipo debe asumir sin experiencia previa; al ser una decisión impuesta, el equipo no evaluó exhaustivamente si el dominio del proyecto (un catálogo de productos con CRUD) realmente necesita la robustez de un framework completo frente a una solución más liviana.
+**Negativas:** mayor verbosidad inicial que React para componentes simples; RxJS (usado internamente por `HttpClient` y el router) tiene su propia curva de aprendizaje que el equipo debe asumir sin experiencia previa; al ser una decisión impuesta, el equipo no evaluó exhaustivamente si el dominio del proyecto (un catálogo de libros con CRUD) realmente necesita la robustez de un framework completo frente a una solución más liviana.
 
 ## Alternativas consideradas
 
 - **React**: descartada porque el enunciado exige Angular, pero técnicamente hubiera requerido ensamblar manualmente router (React Router), cliente HTTP (Axios/fetch) y manejo de formularios (Formik/React Hook Form), con más decisiones de integración para un equipo sin experiencia previa consolidada en frontend.
 - **Vue**: no evaluada en profundidad por la misma razón (restricción del enunciado); en términos generales ofrece una curva de aprendizaje más suave que Angular, pero un ecosistema y comunidad más pequeños que ambos, y tampoco era una opción permitida por la consigna.
+
+## Nota de contexto
+
+Este ejercicio usa el dominio de gestión bibliotecaria como caso de práctica de la Unidad III de Aplicaciones Web, independiente del repositorio del Proyecto Fin de Curso real del autor.
